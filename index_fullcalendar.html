@@ -1,152 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8' />
-<title>CarWash</title>
-<link href='./fullcalendar-3.1.0/fullcalendar.min.css' rel='stylesheet' />
-<link href='./fullcalendar-3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-<script src='./fullcalendar-3.1.0/lib/moment.min.js'></script>
-<script src='./fullcalendar-3.1.0/lib/jquery.min.js'></script>
-<script src='./fullcalendar-3.1.0/lib/jquery-ui.min.js'></script>
-<script src='./fullcalendar-3.1.0/fullcalendar.min.js'></script>
-<!-- Bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script>
- var date=new Date();
- var today=date.getDate();
-	$(document).ready(function() {
-
-  //Login ventana modal
-  $('#myModal').modal('show');
-
-		/* initialize the external events
-		-----------------------------------------------------------------*/
-
-		$('#external-events .fc-event').each(function() {
-
-   // store data so the calendar knows to render an event upon drop
-			$(this).data('event', {
-				title: $.trim($(this).text()), // use the element's text as the event title
-				stick: true, // maintain when user navigates (see docs on the renderEvent method)
-    color: "green"
-			});
-
-			// make the event draggable using jQuery UI
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,      // will cause the event to go back to its
-				revertDuration: 0  //  original position after the drag
-			});
-
-		});
-
-
-		/* initialize the calendar
-		-----------------------------------------------------------------*/
-
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
-			},
-			editable: true,
-			droppable: true, // this allows things to be dropped onto the calendar
-			drop: function() {
-					// if so, remove the element from the "Draggable Events" list
-					$(this).remove();
-    //Juan
-    alert("Ahora llamamos a book");
-			},
-   eventDrop: function(event, delta, revertFunc) {
-
-        alert(event.title + " was dropped on " + event.start.format());
-
-        if (!confirm("Are you sure about this change?")) {
-            revertFunc();
-        }
-    },
-    //Eventos de ejemplo
-    events: [
-     {
-      title: 'All Day Event',
-      start: '2017-01-30',
-      constraint: 'null'
-     },
-     {
-      title: 'Completo',
-      start: '2017-01-30',
-      constraint: 'null'
-     }
-    ]
-		});
-	});
-
- function setPassword(){
-  oldp=document.getElementById("oldpass").value;
-  newp=document.getElementById("newpass").value;
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", 'carwash-env.eu-west-1.elasticbeanstalk.com/carwash/change_pwd', true);
-
-  //Send the proper header information along with the request
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-  xhr.onreadystatechange = function() {//Call a function when the state changes.
-      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-          // Request finished. Do processing here.
-      }
-  }
-  xhr.send("user=jose.javier_garcia.aranda@nokia.com&old_pwd="+oldp+"&newpwd="+newp);
-  // xhr.send('string');
-  // xhr.send(new Blob());
-  // xhr.send(new Int8Array());
-  // xhr.send({ form: 'data' });
-  // xhr.send(document);*/
- }
-
-</script>
-<style>
-
-	body {
-		margin-top: 40px;
-		text-align: center;
-		font-size: 14px;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-	}
-
-	#wrap {
-		width: 1100px;
-		margin: 0 auto;
-	}
-
-	#external-events {
-		float: left;
-		width: 150px;
-		padding: 0 10px;
-		border: 1px solid #ccc;
-		background: #eee;
-		text-align: left;
-	}
-
-	#external-events h4 {
-		font-size: 16px;
-		margin-top: 0;
-		padding-top: 1em;
-	}
-
-	#external-events .fc-event {
-		margin: 10px 0;
-		cursor: pointer;
-	}
-
-	#calendar {
-		float: right;
-		width: 900px;
-	}
-
-</style>
+ <meta charset='utf-8' />
+ <title>CarWash</title>
+ <!--fullCalendar -->
+ <link href='./fullcalendar-3.1.0/fullcalendar.min.css' rel='stylesheet' />
+ <link href='./fullcalendar-3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+ <script src='./fullcalendar-3.1.0/lib/moment.min.js'></script>
+ <script src='./fullcalendar-3.1.0/lib/jquery.min.js'></script>
+ <script src='./fullcalendar-3.1.0/lib/jquery-ui.min.js'></script>
+ <script src='./fullcalendar-3.1.0/fullcalendar.min.js'></script>
+ <!-- Bootstrap -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ <!--Desarrollo-->
+ <link rel='stylesheet' type='text/css' href='./estilos.css' />
+ <script src='./init.js'></script>
+ <script src='./funciones.js'></script>
 </head>
+
 <body>
 	<div id='wrap'>
 
@@ -154,10 +26,10 @@
 			<h4>Available Events</h4>
 			<div class='fc-event'>Lavado Completo</div>
 			<div class='fc-event'>Lavado Exterior</div>
-   <h4>Functions</h4>
+   <!--<h4>Functions</h4>
    <button type="button" class='fc-event' onclick="setPassword()">Change Password</button>
    <input type="text" id="oldpass" size="15" placeholder="old">
-   <input type="text" id="newpass" size="15" placeholder="new">
+   <input type="text" id="newpass" size="15" placeholder="new">-->
 		</div>
 
 		<div id='calendar'></div>
@@ -165,28 +37,44 @@
 		<div style='clear:both'></div>
 
 	</div>
+
  <!--Ventana modal para login-->
  <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog">
+ <div class="modal fade" id="myModal" role="dialog">
+   <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header" style="background-color:#6495ED; color:#FFFFFF;
-      border-top-left-radius:5px; border-top-right-radius:5px">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Log in</h4>
-      </div>
-      <div class="modal-body">
-        <p>Some text in the modal.</p>
-      </div>
-      <div class="modal-footer" style="background-color:#6495ED; color:#FFFFFF;
-      border-bottom-left-radius:5px; border-bottom-right-radius: 5px">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
-</div>
+     <!-- Modal content-->
+     <div class="modal-content">
+       <div class="modal-header" >
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h4 class="modal-title">Log in</h4>
+       </div>
+       <div class="modal-body">
+        <form>
+         <div class="row">
+          <div class="form-group col-xs-4 col-md-offset-4">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" value="juan">
+          </div>
+         </div>
+         <div class="row">
+          <div class="form-group col-xs-4 col-md-offset-4">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd" value="1234">
+          </div>
+         </div>
+         <div class="row">
+          <div class="checkbox">
+            <label><input type="checkbox"> Remember me</label>
+          </div>
+         </div>
+        </form>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Continue</button>
+       </div>
+     </div>
+   </div>
+ </div>
 </body>
 </html>
