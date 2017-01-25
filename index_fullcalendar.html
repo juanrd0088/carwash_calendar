@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8' />
+<link href='./fullcalendar-3.1.0/fullcalendar.min.css' rel='stylesheet' />
+<link href='./fullcalendar-3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+<script src='./fullcalendar-3.1.0/lib/moment.min.js'></script>
+<script src='./fullcalendar-3.1.0/lib/jquery.min.js'></script>
+<script src='./fullcalendar-3.1.0/lib/jquery-ui.min.js'></script>
+<script src='./fullcalendar-3.1.0/fullcalendar.min.js'></script>
+<script>
+ var date=new Date();
+ var today=date.getDate();
+	$(document).ready(function() {
+
+
+		/* initialize the external events
+		-----------------------------------------------------------------*/
+
+		$('#external-events .fc-event').each(function() {
+
+   // store data so the calendar knows to render an event upon drop
+			$(this).data('event', {
+				title: $.trim($(this).text()), // use the element's text as the event title
+				stick: true, // maintain when user navigates (see docs on the renderEvent method)
+    color: "green"
+			});
+
+			// make the event draggable using jQuery UI
+			$(this).draggable({
+				zIndex: 999,
+				revert: true,      // will cause the event to go back to its
+				revertDuration: 0  //  original position after the drag
+			});
+
+		});
+
+
+		/* initialize the calendar
+		-----------------------------------------------------------------*/
+
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			editable: true,
+			droppable: true, // this allows things to be dropped onto the calendar
+			drop: function() {
+					// if so, remove the element from the "Draggable Events" list
+					$(this).remove();
+    //Juan
+    alert("Ahora llamamos a book");
+			},
+   eventDrop: function(event, delta, revertFunc) {
+
+        alert(event.title + " was dropped on " + event.start.format());
+
+        if (!confirm("Are you sure about this change?")) {
+            revertFunc();
+        }
+    },
+    //Eventos de ejemplo
+    events: [
+     {
+      title: 'All Day Event',
+      start: '2017-01-30',
+      constraint: 'null'
+     },
+     {
+      title: 'Completo',
+      start: '2017-01-30',
+      constraint: 'null'
+     }
+    ]
+		});
+	});
+
+ function setPassword(){
+  oldp=document.getElementById("oldpass").value;
+  newp=document.getElementById("newpass").value;
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", 'carwash-env.eu-west-1.elasticbeanstalk.com/carwash/change_pwd', true);
+
+  //Send the proper header information along with the request
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function() {//Call a function when the state changes.
+      if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+          // Request finished. Do processing here.
+      }
+  }
+  xhr.send("user=jose.javier_garcia.aranda@nokia.com&old_pwd="+oldp+"&newpwd="+newp);
+  // xhr.send('string');
+  // xhr.send(new Blob());
+  // xhr.send(new Int8Array());
+  // xhr.send({ form: 'data' });
+  // xhr.send(document);*/
+ }
+
+</script>
+<style>
+
+	body {
+		margin-top: 40px;
+		text-align: center;
+		font-size: 14px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+	}
+
+	#wrap {
+		width: 1100px;
+		margin: 0 auto;
+	}
+
+	#external-events {
+		float: left;
+		width: 150px;
+		padding: 0 10px;
+		border: 1px solid #ccc;
+		background: #eee;
+		text-align: left;
+	}
+
+	#external-events h4 {
+		font-size: 16px;
+		margin-top: 0;
+		padding-top: 1em;
+	}
+
+	#external-events .fc-event {
+		margin: 10px 0;
+		cursor: pointer;
+	}
+
+	#calendar {
+		float: right;
+		width: 900px;
+	}
+
+</style>
+</head>
+<body>
+	<div id='wrap'>
+
+		<div id='external-events'>
+			<h4>Available Events</h4>
+			<div class='fc-event'>Lavado Completo</div>
+			<div class='fc-event'>Lavado Exterior</div>
+   <h4>Functions</h4>
+   <button type="button" class='fc-event' onclick="setPassword()">Change Password</button>
+   <input type="text" id="oldpass" size="15" placeholder="old">
+   <input type="text" id="newpass" size="15" placeholder="new">
+		</div>
+
+		<div id='calendar'></div>
+
+		<div style='clear:both'></div>
+
+	</div>
+</body>
+</html>
