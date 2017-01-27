@@ -61,6 +61,36 @@ $(document).ready(function() {
      title: 'Completo',
      start: '2017-01-30',
      constraint: 'null'
+    },
+    {
+     title: 'All Day Event',
+     start: '2017-01-28',
+     constraint: 'null'
+    },
+    {
+     title: 'Completo',
+     start: '2017-01-29',
+     constraint: 'null'
+    },
+    {
+     title: 'All Day Event',
+     start: '2017-01-28',
+     constraint: 'null'
+    },
+    {
+     title: 'Completo',
+     start: '2017-01-28',
+     constraint: 'null'
+    },
+    {
+     title: 'All Day Event',
+     start: '2017-01-28',
+     constraint: 'null'
+    },
+    {
+     title: 'Completo',
+     start: '2017-01-29',
+     constraint: 'null'
     }
    ]
  });
